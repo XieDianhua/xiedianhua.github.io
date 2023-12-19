@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>贝叶斯滤波算法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="2_1 引言2_2 概率的基本概念本书假定所有的连续随机变量都拥有概率密度函数（probability density functions，PDF) 普通密度函数都是具有均值$\mu$和方差${\sigma}^{2}$的一维正态分布（normal distribution）。正态分布的概率密度函数可用高斯函数表示：$$p(x)&#x3D;\left(2 \pi \sigma^{2}\right)^">
+<meta property="og:type" content="article">
+<meta property="og:title" content="贝叶斯滤波算法">
+<meta property="og:url" content="http://example.com/2023/12/18/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2_1 引言2_2 概率的基本概念本书假定所有的连续随机变量都拥有概率密度函数（probability density functions，PDF) 普通密度函数都是具有均值$\mu$和方差${\sigma}^{2}$的一维正态分布（normal distribution）。正态分布的概率密度函数可用高斯函数表示：$$p(x)&#x3D;\left(2 \pi \sigma^{2}\right)^">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/xywoaini/pictures_bed/raw/master/202312182039626.png">
+<meta property="article:published_time" content="2023-12-18T06:56:13.000Z">
+<meta property="article:modified_time" content="2023-12-18T12:39:48.210Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/xywoaini/pictures_bed/raw/master/202312182039626.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-贝叶斯滤波算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/18/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2023-12-18T06:56:13.000Z" itemprop="datePublished">2023-12-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      贝叶斯滤波算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="2-1-引言"><a href="#2-1-引言" class="headerlink" title="2_1 引言"></a>2_1 引言</h4><h4 id="2-2-概率的基本概念"><a href="#2-2-概率的基本概念" class="headerlink" title="2_2 概率的基本概念"></a>2_2 概率的基本概念</h4><p>本书假定所有的连续随机变量都拥有概率密度函数（probability density functions，PDF)</p>
+<p>普通密度函数都是具有均值$\mu$和方差${\sigma}^{2}$的一维正态分布（normal distribution）。正态分布的概率密度函数可用高斯函数表示：<br>$$<br>p(x)&#x3D;\left(2 \pi \sigma^{2}\right)^{-\frac{1}{2}} \exp \left{-\frac{1}{2} \frac{(x-\mu)^{2}}{\sigma^{2}}\right}<br>$$<br>缩写为${N}\left(x ; \mu, \sigma^{2}\right)$</p>
+<h4 id="2-3-机器人环境交互"><a href="#2-3-机器人环境交互" class="headerlink" title="2_3 机器人环境交互"></a>2_3 机器人环境交互</h4><h5 id="2-3-1-状态"><a href="#2-3-1-状态" class="headerlink" title="2_3_1 状态"></a>2_3_1 状态</h5><h5 id="2-3-2-环境交互"><a href="#2-3-2-环境交互" class="headerlink" title="2_3_2 环境交互"></a>2_3_2 环境交互</h5><h5 id="2-3-3-概率生成法则"><a href="#2-3-3-概率生成法则" class="headerlink" title="2_3_3 概率生成法则"></a>2_3_3 概率生成法则</h5><h5 id="2-3-5-置信分布"><a href="#2-3-5-置信分布" class="headerlink" title="2_3_5 置信分布"></a>2_3_5 置信分布</h5><h4 id="2-4-贝叶斯滤波"><a href="#2-4-贝叶斯滤波" class="headerlink" title="2_4 贝叶斯滤波"></a>2_4 贝叶斯滤波</h4><h5 id="2-4-1-贝叶斯滤波算法"><a href="#2-4-1-贝叶斯滤波算法" class="headerlink" title="2_4_1 贝叶斯滤波算法"></a>2_4_1 贝叶斯滤波算法</h5><p><img src="https://gitee.com/xywoaini/pictures_bed/raw/master/202312182039626.png" alt="贝叶斯滤波算法"></p>
+<h5 id="2-4-2-实例"><a href="#2-4-2-实例" class="headerlink" title="2_4_2 实例"></a>2_4_2 实例</h5><p>测量数据z：摄像机</p>
+<p>控制数据u：机器手</p>
+<p>门的状态x：开（open）闭（closed）</p>
+<p>初始状态x_0：未知</p>
+<p>先验概率：</p>
+<p>$$<br>bel(X_0&#x3D;open)&#x3D;0.5\<br>bel(X_0&#x3D;closed)&#x3D;0.5\<br>$$<br>假定机器人传感器有噪声。噪声特性通过下面的条件概率表征：</p>
+<p>$$<br>p(Z_t&#x3D;sense_open|X_t&#x3D;is_open)&#x3D;0.6\</p>
+<p>p(Z_t&#x3D;sense_close|X_t&#x3D;is_open)&#x3D;0.4\</p>
+<p>p(Z_t&#x3D;sense_open|X_t&#x3D;is_close)&#x3D;0.2\</p>
+<p>p(Z_t&#x3D;sense_close|X_t&#x3D;is_close)&#x3D;0.8\<br>$$<br>假设机器人使用操作器把门拉开。</p>
+<p>如果门已经开了，将保持开着；如果门关着，有0_8的概率将门打开。<br>$$<br>\begin{array}{l}<br>p(X_t&#x3D;is_open|U_t&#x3D;push,X_{t-1}&#x3D;is_open)&#x3D;1\</p>
+<p>p(X_t&#x3D;is_closed|U_t&#x3D;push,X_{t-1}&#x3D;is_open)&#x3D;0\</p>
+<p>p(X_t&#x3D;is_open|U_t&#x3D;push,X_{t-1}&#x3D;is_closed)&#x3D;0.8\</p>
+<p>p(X_t&#x3D;is_closed|U_t&#x3D;push,X_{t-1}&#x3D;is_closed)&#x3D;0.2\<br>\end{array}<br>$$<br>也可以选择不使用操作器，这种情况下，世界状态不会改变。<br>$$<br>\begin{array}{l}p(X_t&#x3D;is_open|U_t&#x3D;do_nothing,X_{t-1}&#x3D;is_open)&#x3D;1\</p>
+<p>p(X_t&#x3D;is_closed|U_t&#x3D;do_nothing,X_{t-1}&#x3D;is_open)&#x3D;0\</p>
+<p>p(X_t&#x3D;is_open|U_t&#x3D;do_nothing,X_{t-1}&#x3D;is_closed)&#x3D;0\</p>
+<p>p(X_t&#x3D;is_closed|U_t&#x3D;do_nothing,X_{t-1}&#x3D;is_closed)&#x3D;1\<br>\end{array}<br>$$</p>
+<p>假定在时刻t&#x3D;1时，机器人没有采取任何控制动作，但它检测到门是开的（检测会有噪声，不确定性）。结果（门的状态）的置信度可以由贝叶斯滤波计算。输入分别是：之前置信度bel(x_0)、控制u_1&#x3D;do_nothing、测量“sense_open”。由于状态空间有限（只有开和闭两种），所以算法中的积分结果是有限和：<br>$$<br>\begin{aligned}<br>\overline{bel}(x_{1})&amp;&#x3D;\int p(x_{1}\mid u_{1},x_{0})bel(x_{0})dx_{0}  \<br>&amp;&#x3D;p(x_{1}\mid U_{1}&#x3D;\mathrm{do_nothing},X_{0}&#x3D;\mathrm{is_open})bel(X_{0}&#x3D;\mathrm{is_open}) + \<br>&amp;p(x_1\mid U_1&#x3D;\mathrm{do_nothing},X_0&#x3D;\mathrm{is_closed})bel(X_0&#x3D;\mathrm{is_closed})<br>\end{aligned}<br>$$<br>分别计算X_1的两种情况：<br>$$<br>\begin{aligned}&amp;\overline{bel}(X_1&#x3D;\text{is_open})\<br>&amp;&#x3D;p(X_1&#x3D;\text{is.open}\mid U_1&#x3D;\text{do.nothing.}X_0&#x3D;\text{is.open})bel(X_0&#x3D;\text{is.open})\&amp;\quad+p(X_1&#x3D;\text{is.open}\mid U_1&#x3D;\text{do.nothing.}X_0&#x3D;\text{is.closed})bel(X_0&#x3D;\text{is.closed})\<br>&amp;&#x3D;1\times0.5+0\times 0.5&#x3D;0.5\end{aligned}<br>$$</p>
+<p>$$<br>\begin{aligned}&amp;\overline{bel}(X_1&#x3D;\text{is_closed})\<br>&amp;&#x3D;p(X_1&#x3D;\text{is_open}\mid U_1&#x3D;\text{do_nothing},X_0&#x3D;\text{is_open})bel(X_0&#x3D;\text{is_open})\&amp;\quad+p(X_1&#x3D;\text{is_open}\mid U_1&#x3D;\text{do_nothing},X_0&#x3D;\text{is_closed})bel(X_0&#x3D;\text{is_closed})\<br>&amp;&#x3D;1\times0_5+0\times 0_5&#x3D;0_5\end{aligned}<br>$$</p>
+<h5 id="2-4-3-贝叶斯滤波的数学推导"><a href="#2-4-3-贝叶斯滤波的数学推导" class="headerlink" title="2_4_3 贝叶斯滤波的数学推导"></a>2_4_3 贝叶斯滤波的数学推导</h5><h5 id="2-4-4-马尔科夫假设"><a href="#2-4-4-马尔科夫假设" class="headerlink" title="2_4_4 马尔科夫假设"></a>2_4_4 马尔科夫假设</h5><h4 id="2-5-表示法和计算"><a href="#2-5-表示法和计算" class="headerlink" title="2_5 表示法和计算"></a>2_5 表示法和计算</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/12/18/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%AE%97%E6%B3%95/" data-id="clqbpstcn0001p4u868dce1w5" data-title="贝叶斯滤波算法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/12/19/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/12/19/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/18/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%AE%97%E6%B3%95/">贝叶斯滤波算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
