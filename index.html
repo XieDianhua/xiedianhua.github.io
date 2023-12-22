@@ -178,6 +178,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/21/Untitled/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="XDH大魔王">
+      <meta itemprop="description" content="一次只干一件事">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XieDianhua">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/21/Untitled/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-12-21 10:29:04" itemprop="dateCreated datePublished" datetime="2023-12-21T10:29:04+08:00">2023-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-22 10:11:19" itemprop="dateModified" datetime="2023-12-22T10:11:19+08:00">2023-12-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="概率slam的历史"><a class="markdownIt-Anchor" href="#概率slam的历史"></a> 概率SLAM的历史</h4>
+<p>概率SLAM问题的起源发生在1986年在加利福尼亚州旧金山举行的IEEE机器人和自动化会议上。当时，概率方法才刚刚开始被引入机器人和人工智能（AI）。许多研究人员一直在研究将估计理论方法应用于映射和定位问题；其中包括彼得·奇塞曼、吉姆·克劳利和休·达朗特。在会议期间，许多纸质桌布和餐巾纸上都充满了关于一致映射的长时间讨论。一路上，Raja Chatila、Oliver Faugeras、Randal Smith和其他人也为对话做出了有益的贡献。</p>
+<p>这次对话的结果是认识到，一致概率映射是机器人学中的一个基本问题，需要解决主要的概念和计算问题。在接下来的几年里，发表了一些重要论文。Smith和Cheesman[39]以及Durrant Whyte[17]的工作为描述地标之间的关系和操纵几何不确定性奠定了统计基础。这项工作的一个关键要素是表明，对地图中不同地标位置的估计之间必须有高度的相关性，事实上，这些相关性会随着连续观测而增长。</p>
+<p>与此同时，Ayache和Faugeras[1]正在进行视觉导航的早期工作，Crowley[9]、Chatila和Laumond[6]正在使用卡尔曼滤波器类型的算法对移动机器人进行基于声纳的导航。这两条研究有很多共同点，不久之后Smith等人发表了具有里程碑意义的论文。[40]。本文表明，当移动机器人在未知环境中移动时，对地标进行相对观测，由于估计的车辆位置存在常见误差，这些地标的估计值必然相互关联[27]。这意味着深远的意义：定位和映射组合问题的一致完整解决方案需要一个由车辆姿态和每个地标位置组成的联合状态，在每次地标观测后进行更新。反过来，这将要求估计器使用巨大的状态向量（按照地图中保持的地标数量的顺序），计算缩放为地标数量的平方。</p>
+<p>至关重要的是，这项工作没有考察映射的收敛特性或其稳态行为。事实上，它当时广泛假设估计的地图误差不会收敛，而是表现出具有无界误差增长的随机游动行为。因此，考虑到映射问题的计算复杂性，在不了解映射收敛行为的情况下，研究人员转而关注一致映射问题的一系列近似，这些近似假设甚至迫使地标之间的相关性最小化或消除，从而将全滤波器减少为一系列解耦的地标到车辆滤波器（例如[28]和[38]）。同样由于这些原因，关于联合定位和映射问题的理论工作暂时停止，工作通常集中在作为单独问题的映射或定位上。</p>
+<p>概念上的突破伴随着这样一个认识：映射和定位的组合问题，曾经被表述为一个单一的估计问题，实际上是收敛的。最重要的是，人们认识到，大多数研究人员试图最小化的地标之间的相关性实际上是问题的关键部分，相反，这些相关性增长得越多，解决方案就越好。SLAM问题的结构、收敛结果和首字母缩写SLAM的产生首次出现在1995年国际机器人研究研讨会[16]上发表的一篇移动机器人调查论文中。Csorba[10]，[11]发展了关于收敛性的基本理论和许多初步结果。已经在进行测绘和定位工作的几个小组，特别是麻省理工学院[29]、萨拉戈萨[4]、[5]、悉尼ACFR[20]、[45]和其他[7]、[13]，开始认真研究SLAM——此时在室内、室外和海底环境中也称为并行测绘和定位（CML）。</p>
+<p>此时，工作重点是提高计算效率和解决数据关联或循环闭合中的问题。1999年国际机器人研究研讨会（ISRR’99）[23]是第一届SLAM会议的重要会议点，基于卡尔曼滤波器的SLAM方法与Thrun[42]引入的概率定位和映射方法之间达到了一定程度的收敛。2000年IEEE国际机器人与自动化会议（ICRA）SLAM研讨会吸引了15名研究人员，重点关注算法复杂性、数据关联和实施挑战等问题。随后在2002年ICRA举办的SLAM研讨会吸引了150名研究人员，他们有着广泛的兴趣和应用。Henrik Christiansen在斯德哥尔摩KTH举办的2002年SLAM暑期学校吸引了来自世界各地的所有关键研究人员和大约50名博士生，并在该领域取得了巨大成功。近年来，人们对SLAM的兴趣呈指数级增长，ICRA和IROS继续举办研讨会。SLAM暑期学校于2004年在图卢兹开办，2006年将在英国牛津开办。</p>
+<h4 id="slam问题的形式和结构"><a class="markdownIt-Anchor" href="#slam问题的形式和结构"></a> SLAM问题的形式和结构</h4>
+<p>SLAM是一个移动机器人构建环境地图，同时使用该地图推断其位置的过程。在SLAM中，平台的轨迹和所有地标的位置都是在线估计的，而不需要任何位置的先验知识。</p>
+<h5 id="预备知识"><a class="markdownIt-Anchor" href="#预备知识"></a> 预备知识</h5>
+<h5 id="概率slam"><a class="markdownIt-Anchor" href="#概率slam"></a> 概率SLAM</h5>
+<p>在概率形式中，同时定位和地图构建（SLAM）问题要求计算所有时间k的概率分布</p>
+<p><img src="C:/Users/Dianhuaxie/AppData/Roaming/Typora/typora-user-images/image-20231221182339353.png" alt="image-20231221182339353"></p>
+<p>该概率分布描述了在直到并包括时间k的观测数据和控制数据以及车辆的初始状态的情况下，地标位置m和车辆状态x（在时间k）的联合后验概率密度。</p>
+<h3 id="面对鲁棒性感知时代slam的过去-当下和未来"><a class="markdownIt-Anchor" href="#面对鲁棒性感知时代slam的过去-当下和未来"></a> 面对鲁棒性感知时代，SLAM的过去、当下和未来</h3>
+<h5 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h5>
+<p>同时定位与建图（SLAM）由<strong>环境模型</strong>（地图）和在其中移动的机器人的<strong>状态估计</strong>组成。在过去30年，SLAM社区做了令人惊讶的进步，促成大规模的落地应用和见证了到工业技术的平稳过渡。</p>
+<ol>
+<li>
+<p>介绍实际标准公式</p>
+</li>
+<li>
+<p>回顾相关工作（robustness and scalability in long-term mapping, metric and semantic representations for mapping, theoretical performance guarantees, active SLAM and exploration,and other new frontiers）</p>
+</li>
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/20/probability-and-statistics/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -201,10 +291,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-12-20 10:42:00 / 修改时间：18:02:00" itemprop="dateCreated datePublished" datetime="2023-12-20T10:42:00+08:00">2023-12-20</time>
+              <time title="创建时间：2023-12-20 10:42:00" itemprop="dateCreated datePublished" datetime="2023-12-20T10:42:00+08:00">2023-12-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-21 10:56:59" itemprop="dateModified" datetime="2023-12-21T10:56:59+08:00">2023-12-21</time>
+              </span>
 
           
 
@@ -277,9 +373,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <p><img src="C:/Users/Dianhuaxie/AppData/Roaming/Typora/typora-user-images/image-20231220130838237.png" alt="image-20231220130838237"></p>
 <p>google chorme快捷键<br>
 高亮文本：Alt+S<br>
-常规高亮：黄色 #FFCCCC<br>
-待办：紫色 #CCCCFF<br>
-其它：绿色 #CCFFCC</p>
+adbobe dc: 高亮 U</p>
 <h4 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h4>
 <p>[1] 概率论与数理统计 浙江大学 盛骤</p>
 <p>[2] <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Central_limit_theorem#Applications_and_examples">https://en.wikipedia.org/wiki/Central_limit_theorem#Applications_and_examples</a></p>
@@ -393,8 +487,17 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-19 18:21:34" itemprop="dateModified" datetime="2023-12-19T18:21:34+08:00">2023-12-19</time>
+                <time title="修改时间：2023-12-22 10:13:04" itemprop="dateModified" datetime="2023-12-22T10:13:04+08:00">2023-12-22</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SLAM/" itemprop="url" rel="index"><span itemprop="name">SLAM</span></a>
+                </span>
+            </span>
 
           
 
@@ -587,9 +690,13 @@ p(X_t=is\_closed|U_t=do\_nothing,X_{t-1}=is\_closed)=1\\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
       </div>
   </nav>
 </div>
